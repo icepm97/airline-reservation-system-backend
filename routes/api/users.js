@@ -1,9 +1,7 @@
 var router = require('express').Router()
 
 router.get('/', (req, res) => {
-  res.send('hello')
+  res.send('users api endpoint')
 })
-
-router.use('/api', require('./api/index'))
 
 module.exports = router
