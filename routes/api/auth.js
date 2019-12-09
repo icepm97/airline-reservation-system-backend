@@ -1,5 +1,11 @@
 var router = require('express').Router()
 
+
+/*
+Auth
+username, password, type{management, customer}
+jwt
+*/
 router.post('/', (req, res) => {
   if (req.body.username == 'pathum' && req.body.password == '123') {
       res.json({
@@ -8,8 +14,7 @@ router.post('/', (req, res) => {
       })
   } else {
     res.json({
-        error: 'unauthorized',
-        message: 'Authentication failed'
+        error: 'unauthorized'
     })
   }
 })
