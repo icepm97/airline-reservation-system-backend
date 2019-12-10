@@ -3,10 +3,9 @@ const customer = require('../../models/customers')
 
 /*
 Auth
-email, password, type{management, customer}
-jwt
+email, password
 */
-router.post('/', (req, res) => {
+router.post('/login', (req, res) => {
     customer.authorize(req.body.email, req.body.password, (error, result) => {
         if (error) {
             res.status(500).json({
