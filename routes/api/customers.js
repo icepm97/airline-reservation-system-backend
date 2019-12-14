@@ -42,7 +42,7 @@ register
 *
 */
 router.post('/', (req, res) => {
-    customer.authorize(req.body.email, req.body.password, (error, result) => {
+    customer.register(req.body.email ,req.body.first_name ,req.body.last_name ,req.body.gender ,req.body.birthday ,req.body.NIC ,req.body.category ,req.body.password, (error, result) => {
         if (error) {
             res.status(500).json({
                 error: {
@@ -53,16 +53,16 @@ router.post('/', (req, res) => {
             })
             return
         }
-        if (!result) {
-            res.status(401).json({
-                error: {
-                    error: 'unauthorized',
-                    message: 'User credentials are invalid'
-                },
-                data: []
-            })
-            return
-        }
+        // if (!result) {
+        //     res.status(401).json({
+        //         error: {
+        //             error: 'unauthorized',
+        //             message: 'User credentials are invalid'
+        //         },
+        //         data: []
+        //     })
+        //     return
+        // }
         res.status(200).json({
             error: {},
             data: [{ id: result.id }]
