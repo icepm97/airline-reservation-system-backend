@@ -54,26 +54,16 @@ router.post('/register', (req, res) => {
             })
             return
         }
-        if (!result) {
-            res.status(401).json({
-                error: {
-                    error: 'unauthorized',
-                    message: 'User credentials are invalid'
-                },
-                data: []
-            })
-            return
-        }
-        if (result.id=== '#already_register#') {
-            res.status(401).json({
-                error: {
-                    error: 'unauthorized',
-                    message: 'You have already registered'
-                },
-                data: []
-            })
-            return
-        }
+        // if (!result) {
+        //     res.status(401).json({
+        //         error: {
+        //             error: 'unauthorized',
+        //             message: 'User credentials are invalid'
+        //         },
+        //         data: []
+        //     })
+        //     return
+        // }
         res.status(200).json({
             error: {},
             data: [{ id: result.id }]

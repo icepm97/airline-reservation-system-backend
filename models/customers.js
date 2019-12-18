@@ -1,5 +1,8 @@
 const connection = require('./db')
-var shortid = require('shortid')
+const validator = require('email-validator')
+const schema = require('password-validator')
+const shortid = require('shortid')
+
 
 const login = (email, password, result) => {
     connection.query('SELECT `customer_id`, `email`, `password` FROM `customer_login` JOIN `customer` USING (`email`) WHERE email=? LIMIT 1', email, (err, res) => {
@@ -8,16 +11,76 @@ const login = (email, password, result) => {
     })
 }
 
+const register = (email ,first_name ,last_name ,gender ,birthday ,NIC ,category ,password ,result) => {
+    connection.query('SELECT `email` FROM customer_login` JOIN `customer` USING (`email`) WHERE email=?', email, function(error) {
+        if((!error) && (res.length == 0)) {
+            var customer_id = shortid.generate();
+            
+            connection.query('SELECT `customer_id` FROM customer', function(error) {
+                if(error){
+                    throw error;
+                }
+                while(res.includes(customer_id)){
+                    customer_id = shortid.generate();
+                }
+            });
 
-const register = (email, password, first_name, last_name, gender, birthday, NIC, category, result) => {
-    var con = connection.getConnection()
-    //check email in customer_login
-    var count = 0
-    con.query('CALL chekEmail(?)',email,(err, res) => {
-        var count = (!err) && (res.length == 1) ? res[0].emailCount : null
-        
-    })
-    if(count==0){
+            if (validations(email,password)){
+                connection.beginTransaction(function(err) {
+                    if (err) { result(err, null) }
+                    connection.query('INSERT into customer_login (`email`,`password`) VALUES (?,?)', (email,password), function (error) {
+                        if (error) {
+                            return connection.rollback(function() {
+                            throw error;
+                            });
+                        }
+                
+                    connection.query('INSERT INTO customer (`customer_id`,`email`,`first_name`,`last_name`,`gender`,`birthday`,`NIC`,`category`) VALUES (?,?,?,?,?,?,?,?)', (customer_id,email,first_name,last_name,gender,birthday,NIC,category), function (error) {
+                        if (error) {
+                        return connection.rollback(function() {
+                            throw error;
+                        });
+                        }
+
+                        connection.commit(function(err) {
+                        let data = (!err) ? {id: customer_id} : null
+                        if (err) {
+                            return connection.rollback(function() {
+                            //throw err;
+                            result(err,data)
+                            });
+                        }
+                        console.log('success!');
+                        result(err, data)
+                        });
+                    });
+                    });
+                });
+            }
+        }
+    }); 
+}
+
+function validations(email, pass){
+    var schema = new passwordValidator();
+    // Add properties to it
+    schema
+    .is().min(8)                                    // Minimum length 8
+    .is().max(100)                                  // Maximum length 100
+    .has().uppercase()                              // Must have uppercase letters
+    .has().lowercase()                              // Must have lowercase letters
+    .has().digits()                                 // Must have digits
+    .has().not().spaces()                           // Should not have spaces
+    //.is().not().oneOf(['Password123']);             // Blacklist these values
+
+    let mail = (validator.validate(email) ? true: console.log("email format is wrong"))
+    let pass = (schema.validate(pass) ? true: console.log("password must have length 8<= pass<= 100, atleast an upperletter, a lowerletter, a digit and should not have 'space'"))
+
+    if (mail && pass){
+        return true;
+    }
+    return false;
+}
 
         //email, validate
 
