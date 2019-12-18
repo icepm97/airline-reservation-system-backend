@@ -1,5 +1,7 @@
 const router = require('express').Router()
-const customer = require('../../models/customers')
+const customer = require('../../models/management')
+const jwt = require('jsonwebtoken')
+const config = require('../../config/config')
 
 /*
 login
@@ -9,6 +11,7 @@ jwt
 router.post('/login', (req, res) => {
     customer.login(req.body.username, req.body.password, (error, result) => {
         if (error) {
+            console.log(error)
             res.status(500).json({
                 error: {
                     error: 'server_error',
@@ -28,9 +31,17 @@ router.post('/login', (req, res) => {
             })
             return
         }
+        
+        const token = jwt.sign({
+            id: result.id,
+            type: 'customer'
+        }, 'secret', { expiresIn: '1h' });
         res.status(200).json({
             error: {},
-            data: [{ id: result.id }]
+            data: [{ 
+                jwt: token,
+                id: result.id 
+            }]
         })
         console.log(result.id)
     })
