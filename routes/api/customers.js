@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const customer = require('../../models/customers')
-
+const bcrypt = require('bcryptjs')
 
 /*
 login
@@ -33,6 +33,7 @@ router.post('/login', (req, res) => {
             data: [{ id: result.id }]
         })
         console.log(result.id)
+        res.send(result.id)
     })
 })
 
@@ -41,28 +42,29 @@ router.post('/login', (req, res) => {
 register
 *
 */
-router.post('/', (req, res) => {
-    customer.authorize(req.body.email, req.body.password, (error, result) => {
+router.post('/register', (req, res) => {
+    var hashedPassword = bcrypt.hashSync(req.body.password, 8)
+    customer.register(req.body.email, hashedPassword, (error, result) => {
         if (error) {
             res.status(500).json({
                 error: {
                     error: 'server_error',
-                    message: 'Server Error'
+                    message: 'There is a problem registering the customer'
                 },
                 data: []
             })
             return
         }
-        if (!result) {
-            res.status(401).json({
-                error: {
-                    error: 'unauthorized',
-                    message: 'User credentials are invalid'
-                },
-                data: []
-            })
-            return
-        }
+        // if (!result) {
+        //     res.status(401).json({
+        //         error: {
+        //             error: 'unauthorized',
+        //             message: 'User credentials are invalid'
+        //         },
+        //         data: []
+        //     })
+        //     return
+        // }
         res.status(200).json({
             error: {},
             data: [{ id: result.id }]
