@@ -33,6 +33,7 @@ router.post('/login', (req, res) => {
             data: [{ id: result.id }]
         })
         console.log(result.id)
+        res.send(result.id)
     })
 })
 
