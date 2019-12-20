@@ -1,6 +1,6 @@
-const mysql = require("mysql")
-const config = require("../config/config")
+const { Pool } = require('pg')
+const pgConfig = require("../config/config").pg
 
-const connection = mysql.createPool(config.mysql)
+const pool = new Pool(pgConfig)
 
-module.exports = connection;
+module.exports = pool 
