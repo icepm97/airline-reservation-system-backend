@@ -9,18 +9,8 @@ email, password, type{management, customer}
 jwt
 */
 router.post('/login', (req, res) => {
-    customer.login(req.body.username, req.body.password, (error, result) => {
-        if (error) {
-            console.log(error)
-            res.status(500).json({
-                error: {
-                    error: 'server_error',
-                    message: 'Server Error'
-                },
-                data: []
-            })
-            return
-        }
+    customer.login(req.body.username, req.body.password)
+    .then(result => {
         if (!result) {
             res.status(401).json({
                 error: {
@@ -29,6 +19,7 @@ router.post('/login', (req, res) => {
                 },
                 data: []
             })
+            console.log(result)
             return
         }
         
@@ -44,7 +35,20 @@ router.post('/login', (req, res) => {
             }]
         })
         console.log(result.id)
+        console.log(token)
     })
+    .catch(error => {
+        console.log(error)
+        res.status(500).json({
+            error: {
+                error: 'server_error',
+                message: 'Server Error'
+            },
+            data: []
+        })
+    })
+    
+    
 })
 
 module.exports = router
