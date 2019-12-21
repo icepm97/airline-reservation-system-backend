@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const customer = require('../../models/management')
+const management = require('../../models/management')
 const jwt = require('jsonwebtoken')
-const config = require('../../config/config')
+const response = require('../../helper/response')
 
 /*
 login
@@ -9,45 +9,22 @@ email, password, type{management, customer}
 jwt
 */
 router.post('/login', (req, res) => {
-    customer.login(req.body.username, req.body.password)
+    management.login(req.body.username, req.body.password)
     .then(result => {
         if (!result) {
-            res.status(401).json({
-                error: {
-                    error: 'unauthorized',
-                    message: 'User credentials are invalid'
-                },
-                data: []
-            })
-            console.log(result)
-            return
+            return response.error(res, 401, 'unauthorized', 'User credentials are invalid')
         }
         
         const token = jwt.sign({
             id: result.id,
             type: 'customer'
         }, 'secret', { expiresIn: '1h' });
-        res.status(200).json({
-            error: {},
-            data: [{ 
-                jwt: token,
-                id: result.id 
-            }]
-        })
-        console.log(result.id)
-        console.log(token)
+
+        response.jwt(res, 200, result, token)
     })
     .catch(error => {
-        console.log(error)
-        res.status(500).json({
-            error: {
-                error: 'server_error',
-                message: 'Server Error'
-            },
-            data: []
-        })
+        response.error(res, 401, 'server_error', 'Server Error')
     })
-    
     
 })
 
