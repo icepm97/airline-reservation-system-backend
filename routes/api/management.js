@@ -5,7 +5,7 @@ const response = require('../../helper/response')
 
 /*
 login
-email, password, type{management, customer}
+email, password
 jwt
 */
 router.post('/login', (req, res) => {
@@ -23,7 +23,7 @@ router.post('/login', (req, res) => {
         response.jwt(res, 200, result, token)
     })
     .catch(error => {
-        response.error(res, 401, 'server_error', 'Server Error')
+        response.error(res, 401, 'server_error', 'Server Error', error)
     })
     
 })

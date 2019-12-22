@@ -1,4 +1,4 @@
-const error = (res, code, error, message) => {
+const error = (res, code, error, message, err) => {
     res.status(code).json({
         error: {
             error: error,
@@ -6,6 +6,7 @@ const error = (res, code, error, message) => {
         },
         data: []
     })
+    console.log(err)
 }
 
 const data = (res, code, data) => {
