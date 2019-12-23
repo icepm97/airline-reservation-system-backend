@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const management = require('../../models/management')
 const jwt = require('jsonwebtoken')
+const jwtConfig = require('../../config/jwt')
 const response = require('../../helper/response')
 
 /*
@@ -17,13 +18,13 @@ router.post('/login', (req, res) => {
         
         const token = jwt.sign({
             id: result.id,
-            type: 'customer'
-        }, 'secret', { expiresIn: '1h' });
+            type: 'managemet'
+        }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
 
         response.jwt(res, 200, result, token)
     })
     .catch(error => {
-        response.error(res, 401, 'server_error', 'Server Error', error)
+        response.error(res, 500, 'server_error', 'Server Error', error)
     })
     
 })
