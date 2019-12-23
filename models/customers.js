@@ -32,7 +32,7 @@ const register = (email, first_name, last_name, gender, birthday, NIC, category,
                     connection.query('INSERT into customer_login (`email`,`password`) VALUES (?,?)', (email, password), function (error) {
                         if (error) {
                             return connection.rollback(function () {
-                                tresult(error, null)
+                                result(error, null)
                             });
                         }
 
