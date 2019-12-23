@@ -1,14 +1,17 @@
-const connection = require('./db')
+const pool = require('./db')
 const validator = require('email-validator')
 const schema = require('password-validator')
 const shortid = require('shortid')
+const bcrypt = require('bcrypt')
 
 
-const login = (email, password, result) => {
-    connection.query('SELECT `customer_id`, `email`, `password` FROM `customer_login` JOIN `customer` USING (`email`) WHERE email=? LIMIT 1', email, (err, res) => {
-        let data = ((!err) && (res.length == 1) && (res[0].password == password)) ? { id: res[0].customer_id } : null
-        result(err, data)
-    })
+const login = async (email, password, result) => {
+    let { rows } = await pool.query('SELECT "customer_id", "email", "first_name", "last_name", "gender", "birthday", "NIC", "category", "password" FROM "customer_login" JOIN "customer" USING ("customer_id") WHERE "email" = $1 LIMIT 1', [email])
+    if ((rows.length == 1) && (await bcrypt.compare(password, rows[0].password))) {
+        let {password, ...data} = rows[0]
+        return data
+    }
+    return null
 }
 
 const register = (email, first_name, last_name, gender, birthday, NIC, category, password, result) => {
