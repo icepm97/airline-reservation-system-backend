@@ -33,34 +33,17 @@ router.post('/login', (req, res) => {
 register
 *
 */
-router.post('/register', (req, res) => {
-    var hashedPassword = bcrypt.hashSync(req.body.password, 8)
-    customer.register(req.body.email, hashedPassword, (error, result) => {
-        if (error) {
-            res.status(500).json({
-                error: {
-                    error: 'server_error',
-                    message: 'There is a problem registering the customer'
-                },
-                data: []
-            })
-            return
+router.post('/', (req, res) => {
+    customer.register(req.body.email, req.body.last_name, req.body.last_name, req.body.gender, req.body.birthday, req.body.NIC, 'new', req.body.password)
+    .then(result => {
+        if (!result) {
+            return response.error(res, 409, 'invalid_input', 'Email already exist')
         }
-        // if (!result) {
-        //     res.status(401).json({
-        //         error: {
-        //             error: 'unauthorized',
-        //             message: 'User credentials are invalid'
-        //         },
-        //         data: []
-        //     })
-        //     return
-        // }
-        res.status(200).json({
-            error: {},
-            data: [{ id: result.id }]
-        })
-        console.log(result.id)
+
+        response.data(res, 201, [])
+    })
+    .catch(error => {
+        response.error(res, 500, 'server_error', 'Server Error', error)
     })
 })
 

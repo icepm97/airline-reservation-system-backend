@@ -8,60 +8,34 @@ const bcrypt = require('bcrypt')
 const login = async (email, password, result) => {
     let { rows } = await pool.query('SELECT "customer_id", "email", "first_name", "last_name", "gender", "birthday", "NIC", "category", "password" FROM "customer_login" JOIN "customer" USING ("customer_id") WHERE "email" = $1 LIMIT 1', [email])
     if ((rows.length == 1) && (await bcrypt.compare(password, rows[0].password))) {
-        let {password, ...data} = rows[0]
+        let { password, ...data } = rows[0]
         return data
     }
     return null
 }
 
-const register = (email, first_name, last_name, gender, birthday, NIC, category, password, result) => {
-    //connection.query('SELECT checkMail(?) AS `count`', email, function(error,res) 
-    connection.query('SELECT checkMail(?) AS `count`', email, function (error, res) {
-        if ((!error) && (res[0].count == 0)) {
-            var customer_id = shortid.generate();
+const register = async (email, first_name, last_name, gender, birthday, NIC, category, password) => {
+    const client = await pool.connect()
+    const { rows } = await client.query('SELECT count("email") AS "count" FROM "customer" WHERE "email" = $1', [email])
 
-            connection.query('SELECT `customer_id` FROM customer', function (error, res) {
-                if (error) {
-                    result(error, null)
-                }
-                while (res.includes(customer_id)) {
-                    customer_id = shortid.generate();
-                }
-            });
+    console.log(rows)
+    if (rows[0].count != 0) {
+        return null
+    }
 
-            if (validations(email, password)) {
-                connection.beginTransaction(function (err) {
-                    if (err) { result(err, null) }
-                    connection.query('INSERT into customer_login (`email`,`password`) VALUES (?,?)', (email, password), function (error) {
-                        if (error) {
-                            return connection.rollback(function () {
-                                tresult(error, null)
-                            });
-                        }
+    try {
+        await client.query('BEGIN')
+        const { rows } = await client.query('INSERT INTO "customer" ("email", "first_name", "last_name", "gender", "birthday", "NIC", "category") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "customer_id"', [email, first_name, last_name, gender, birthday, NIC, category])
+        await client.query('INSERT into "customer_login" ("customer_id", "password") VALUES ($1, $2)', [rows[0].customer_id, password])
+        await client.query('COMMIT')
+        return rows[0].customer_id
+    } catch (e) {
+        await client.query('ROLLBACK')
+        throw e
+    } finally {
+        client.release()
+    }
 
-                        connection.query('INSERT INTO customer (`customer_id`,`email`,`first_name`,`last_name`,`gender`,`birthday`,`NIC`,`category`) VALUES (?,?,?,?,?,?,?,?)', (customer_id, email, first_name, last_name, gender, birthday, NIC, category), function (error) {
-                            if (error) {
-                                return connection.rollback(function () {
-                                    result(error, null)
-                                });
-                            }
-
-                            connection.commit(function (err) {
-                                let data = { id: customer_id }
-                                if (err) {
-                                    return connection.rollback(function () {
-                                        result(err, null)
-                                    });
-                                }
-                                console.log('success!');
-                                result(null, data)
-                            });
-                        });
-                    });
-                });
-            }
-        }
-    });
 }
 
 function validations(email, password) {
