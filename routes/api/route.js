@@ -2,7 +2,7 @@ const router = require("express").Router()
 const route = require('../../models/route')
 const response = require('../../helper/response')
 
-router.get("/",(res,req)=>{
+router.get("/",(req,res)=>{
     route.getAllRoutes()
     .then(result => {
         response.data(res, 200, result)

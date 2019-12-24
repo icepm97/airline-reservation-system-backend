@@ -1,6 +1,6 @@
 const router = require("express").Router()
 
-router.post("/",(res,req)=>{
+router.post("/",(req,res)=>{
 
 })
 
