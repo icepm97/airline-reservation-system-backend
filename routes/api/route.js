@@ -11,3 +11,6 @@ router.get("/",(res,req)=>{
         response.error(res, 500, 'server_error', 'Server Error', error)
     })
 })
+
+
+module.exports = router
