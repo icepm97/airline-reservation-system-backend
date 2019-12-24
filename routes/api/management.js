@@ -3,13 +3,16 @@ const management = require('../../models/management')
 const jwt = require('jsonwebtoken')
 const jwtConfig = require('../../config/jwt')
 const response = require('../../helper/response')
+const middlewareJoi = require("../../helper/joi_middleware")
+const schemas = require("../../helper/joi_schemas")
+
 
 /*
 login
 email, password
 jwt
 */
-router.post('/login', (req, res) => {
+router.post('/login',middlewareJoi(schemas.managementLoginPOST), (req, res) => {
     management.login(req.body.username, req.body.password)
     .then(result => {
         if (!result) {
