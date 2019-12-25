@@ -10,6 +10,11 @@ const middlewareJWT = (type) => {
         payload = jwt.verify(req.body.jwt, jwtConfig.secret);
         if (payload.type === type) {
           next();
+        }else{
+          res
+          .status(401)
+          .json({ error: "Authentication failed" })
+          .end();
         }
       } else {
         res
