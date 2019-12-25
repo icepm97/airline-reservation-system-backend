@@ -4,12 +4,10 @@ const addFlight = async flight => {
   let {
     rows
   } = await pool.query(
-    'SELECT "customer_id", "email", "first_name", "last_name", "gender", "birthday", "NIC", "category", "password" FROM "customer_login" JOIN "customer" USING ("customer_id") WHERE "email" = $1 LIMIT 1',
-    [email]
+  "INSERT INTO public.flight (journey_duration,departure_time,route_id,aircraft_model) VALUES ($1,$2,$3,$4)",
+    [flight.journey_duration,flight.departure_time,flight.route_id,flight.aircraft_model]
   );
-  if (rows.length == 1 && (await bcrypt.compare(password, rows[0].password))) {
-    let { password, ...data } = rows[0];
-    return data;
-  }
-  return null;
+  return true;
 };
+
+module.exports = addFlight
