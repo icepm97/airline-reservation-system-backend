@@ -10,4 +10,4 @@ const addFlight = async flight => {
   return true;
 };
 
-module.exports = addFlight
+module.exports = {addFlight}
