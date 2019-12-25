@@ -5,7 +5,7 @@ const error = (res, code, error, message, err) => {
             message: message
         },
         data: []
-    })
+    }).end()
     console.log(err)
 }
 
@@ -13,7 +13,7 @@ const data = (res, code, data) => {
     res.status(code).json({
         error: {},
         data: data
-    })
+    }).end()
 }
 
 const jwt = (res, code, data, jwt) => {
@@ -21,7 +21,7 @@ const jwt = (res, code, data, jwt) => {
         error: {},
         data: data,
         jwt: jwt
-    })
+    }).end()
 }
 
 module.exports = {error, data, jwt}
