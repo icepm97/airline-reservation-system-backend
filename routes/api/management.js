@@ -5,6 +5,7 @@ const jwtConfig = require('../../config/jwt')
 const response = require('../../helper/response')
 const middlewareJoi = require("../../helper/joi_middleware")
 const schemas = require("../../helper/joi_schemas")
+const types = require('../../config/types')
 
 
 /*
@@ -21,7 +22,7 @@ router.post('/login',middlewareJoi(schemas.managementLoginPOST), (req, res) => {
         
         const token = jwt.sign({
             id: result.id,
-            type: 'managemet'
+            type: types.management
         }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
 
         response.jwt(res, 200, result, token)
