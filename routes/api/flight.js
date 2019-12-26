@@ -23,7 +23,7 @@ router.post(
 );
 
 router.get("/", (req, res) => {
-    console.log(req,req.params)
+  console.log(req, req.params);
   flight
     .getFlights()
     .then(result => {
@@ -34,9 +34,17 @@ router.get("/", (req, res) => {
     });
 });
 
-router.delete("/",(req,res)=>{
-  console.log(req)
-  // flight.deleteFlight()
-})
+router.delete(
+  "/",
+  middlewareJoi(schemas.jwt(schemas.flightDELETE)),
+  middlewareJWT(types.management),
+  (req, res) => {
+    flight.deleteFlight(req.body.data.flight_id).then((result) => {
+      response.data(res,200,{result:result,message:"successfully deleted"})
+    }).catch((err) => {
+      response.error(res, 500, "server_error", "Server Error", err);
+    });
+  }
+);
 
 module.exports = router;

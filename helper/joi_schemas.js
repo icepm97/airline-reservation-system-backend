@@ -19,6 +19,9 @@ const schemas  ={
         route_id:Joi.number().required(),
         aircraft_model:Joi.number().required()
     }),
+    flightDELETE:Joi.object().keys({
+        flight_id:Joi.number().required()
+    })
     
 }
 
