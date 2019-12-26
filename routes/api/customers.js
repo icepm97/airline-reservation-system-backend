@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const jwtConfig = require('../../config/jwt')
 const response = require('../../helper/response')
 const jwt = require('jsonwebtoken')
-
+const types = require('../../config/types')
 /*
 login
 email, password
@@ -18,7 +18,7 @@ router.post('/login', (req, res) => {
         
         const token = jwt.sign({
             id: result.id,
-            type: 'customer'
+            type: types.customer
         }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
 
         response.jwt(res, 200, result, token)
