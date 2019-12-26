@@ -35,7 +35,7 @@ router.get("/", (req, res) => {
 });
 
 router.delete("/",(req,res)=>{
-  console.log(res)
+  console.log(res.body)
   // flight.deleteFlight()
 })
 
