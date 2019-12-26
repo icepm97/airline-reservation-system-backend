@@ -10,4 +10,9 @@ const addFlight = async flight => {
   return true;
 };
 
-module.exports = {addFlight}
+const getFlights = async ()=>{
+    let{rows} = await pool.query("select * from flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id")
+    return rows;
+}
+
+module.exports = {addFlight,getFlights}

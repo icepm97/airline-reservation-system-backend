@@ -18,7 +18,8 @@ const schemas  ={
         departure_time:Joi.string().required(),
         route_id:Joi.number().required(),
         aircraft_model:Joi.number().required()
-    })
+    }),
+    
 }
 
 module.exports = schemas
