@@ -34,10 +34,10 @@ register
 *
 */
 router.post('/', (req, res) => {
-    customer.register(req.body.email, req.body.last_name, req.body.last_name, req.body.gender, req.body.birthday, req.body.NIC, 'new', req.body.password)
+    customer.register(req.body.email, req.body.first_name, req.body.last_name, req.body.gender, req.body.birthday, req.body.NIC, 'new', req.body.password)
     .then(result => {
         if (!result) {
-            return response.error(res, 409, 'invalid_input', 'Email already exist')
+            return response.error(res, 409, 'invalid_input', 'Email already exists')
         }
 
         response.data(res, 201, [])
