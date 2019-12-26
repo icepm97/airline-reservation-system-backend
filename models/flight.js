@@ -17,7 +17,9 @@ const getFlights = async ()=>{
 
 const deleteFlight = async (flight_id)=>{
     let result = await pool.query("delete from flight where flight_id = $1",[flight_id])
-    console.log("result is here ",result)
-    return result;
+    if(result.rowCount>=1){
+        return true
+    }
+    return false;
 }
 module.exports = {addFlight,getFlights,deleteFlight}

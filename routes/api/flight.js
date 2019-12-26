@@ -40,7 +40,11 @@ router.delete(
   middlewareJWT(types.management),
   (req, res) => {
     flight.deleteFlight(req.body.data.flight_id).then((result) => {
-      response.data(res,200,{result:result,message:"successfully deleted"})
+      if(result){
+        response.data(res,200,{message:"Successfully deleted"})
+      }else{
+        response.data(res,404,{message:"Flight not found"})
+      }
     }).catch((err) => {
       response.error(res, 500, "server_error", "Server Error", err);
     });
