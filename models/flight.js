@@ -17,7 +17,7 @@ const addFlight = async flight => {
 
 const getFlights = async () => {
   let { rows } = await pool.query(
-    "select * from flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id"
+    "select * from flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id and active_status = true"
   );
   return rows;
 };
@@ -34,7 +34,7 @@ const deleteFlight = async flight_id => {
 
 const scheduleFlights = async () => {
   let result = await pool.query(
-    "insert into schedule(date,departure_time_delay,arrival_time_delay,flight_id,state) select now(),'00:00','00:00',flight.flight_id,'on_time' from flight ON CONFLICT (flight_id,date) DO NOTHING;"
+    "insert into schedule(date,departure_time_delay,duration_delay,flight_id,state) select now(),'00:00','00:00',flight.flight_id,'on_time' from flight ON CONFLICT (flight_id,date) DO NOTHING;"
   );
   if (result.rowCount > 0) {
     return true;

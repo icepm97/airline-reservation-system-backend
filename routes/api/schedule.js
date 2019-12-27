@@ -24,7 +24,8 @@ const schemas = require("../../helper/joi_schemas");
 
 router.get("/", (req, res) => {
   console.log(req, req.params);
-  schedule.getScheduleToday()
+  schedule
+    .getScheduleToday()
     .then(result => {
       response.data(res, 200, result);
     })
@@ -33,6 +34,17 @@ router.get("/", (req, res) => {
     });
 });
 
+router.put("/", (req, res) => {
+  schedule
+    .changeState(req.body.data)
+    .then(result => {
+      if(result) response.data(res,200,{message:"Update Success"})
+      else response.data(res,200,{message:"Update failed"})
+    })
+    .catch(err => {
+      response.error(res, 500, "server_error", "Server Error", err);
+    });
+});
 // router.delete(
 //   "/",
 //   middlewareJoi(schemas.jwt(schemas.flightDELETE)),

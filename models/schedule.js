@@ -17,9 +17,23 @@ const pool = require("./db");
 
 const getScheduleToday = async () => {
   let { rows } = await pool.query(
-    "select * from schedule natural join flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id"
+    "select * from schedule natural join flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id and active_status = true"
   );
   return rows;
+};
+
+const changeState = async (data) => {
+  let {
+    rows
+  } = await pool.query(
+    "update schedule set state = $1 where schedule_id = $2 and schedule.date = current_date",
+    [data.state, data.id]
+  );
+  if (rows.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 // const deleteFlight = async flight_id => {
@@ -42,4 +56,4 @@ const getScheduleToday = async () => {
 //     return false;
 //   }
 // };
-module.exports = { getScheduleToday };
+module.exports = { getScheduleToday,changeState };
