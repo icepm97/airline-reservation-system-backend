@@ -10,4 +10,20 @@ const addFlight = async flight => {
   return true;
 };
 
-module.exports = {addFlight}
+const getFlights = async ()=>{
+    let{rows} = await pool.query("select * from flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id")
+    return rows;
+}
+
+const deleteFlight = async (flight_id)=>{
+    let result = await pool.query("delete from flight where flight_id = $1",[flight_id])
+    if(result.rowCount>=1){
+        return true
+    }
+    return false;
+}
+
+const scheduleFlights = async ()=>{
+    let result = await pool.query("insert into schedule(date,departure_time_delay,arrival_time_delay,flight_id,state) select '1999-12-21','00:00','00:00',flight.flight_id,'on_time' from flight;")
+}
+module.exports = {addFlight,getFlights,deleteFlight}

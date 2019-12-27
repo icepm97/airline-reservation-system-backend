@@ -17,7 +17,7 @@ router.post('/login', (req, res) => {
         }
         
         const token = jwt.sign({
-            id: result.id,
+            id: result.customer_id,
             type: types.customer
         }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
 
