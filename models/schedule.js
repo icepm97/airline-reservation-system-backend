@@ -24,12 +24,12 @@ const getScheduleToday = async () => {
 
 const changeState = async (data) => {
   let {
-    rows
+    rowCount
   } = await pool.query(
-    "update schedule set state = $1 where schedule_id = $2 and schedule.date = current_date",
-    [data.state, data.id]
+    "update schedule set state = $1,departure_time_delay = $2,duration_delay=$3 where schedule_id = $4 and schedule.date = current_date",
+    [data.state,data.departure_time_delay,data.duration_delay, data.schedule_id]
   );
-  if (rows.length > 0) {
+  if (rowCount > 0) {
     return true;
   } else {
     return false;
