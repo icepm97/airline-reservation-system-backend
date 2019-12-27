@@ -11,7 +11,7 @@ const middlewareJoi = (schema, property) => {
       const { details } = error;
       const message = details.map(i => i.message).join(",");
 
-      res.status(422).json({ error: message });
+      res.status(422).json({ error: {message} });
     }
   };
 };
