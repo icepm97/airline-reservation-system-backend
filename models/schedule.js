@@ -23,6 +23,10 @@ const getScheduleToday = async () => {
 };
 
 const changeState = async (data) => {
+  if(data.state!=="delay"){
+    data.departure_time_delay="00:00"
+    data.duration_delay="00:00"
+  }
   let {
     rowCount
   } = await pool.query(
