@@ -9,6 +9,7 @@ const middlewareJWT = type => {
       if (req.body.jwt) {
         payload = jwt.verify(req.body.jwt, jwtConfig.secret);
         if (payload.type === type) {
+          req.user_id = payload.id
           next();
         } else {
           response.error(

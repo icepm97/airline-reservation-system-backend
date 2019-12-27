@@ -22,4 +22,8 @@ const deleteFlight = async (flight_id)=>{
     }
     return false;
 }
+
+const scheduleFlights = async ()=>{
+    let result = await pool.query("insert into schedule(date,departure_time_delay,arrival_time_delay,flight_id,state) select '1999-12-21','00:00','00:00',flight.flight_id,'on_time' from flight;")
+}
 module.exports = {addFlight,getFlights,deleteFlight}

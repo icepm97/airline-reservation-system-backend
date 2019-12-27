@@ -39,15 +39,27 @@ router.delete(
   middlewareJoi(schemas.jwt(schemas.flightDELETE)),
   middlewareJWT(types.management),
   (req, res) => {
-    flight.deleteFlight(req.body.data.flight_id).then((result) => {
-      if(result){
-        response.data(res,200,{message:"Successfully deleted"})
-      }else{
-        response.data(res,404,{message:"Flight not found"})
-      }
-    }).catch((err) => {
-      response.error(res, 500, "server_error", "Server Error", err);
-    });
+    flight
+      .deleteFlight(req.body.data.flight_id)
+      .then(result => {
+        if (result) {
+          response.data(res, 200, { message: "Successfully deleted" });
+        } else {
+          response.data(res, 404, { message: "Flight not found" });
+        }
+      })
+      .catch(err => {
+        response.error(res, 500, "server_error", "Server Error", err);
+      });
+  }
+);
+
+router.post(
+  "/schedule",
+  middlewareJoi(schemas.jwt(schemas.flightSchedulePOST)),
+  middlewareJWT(types.management),
+  (req, res) => {
+    
   }
 );
 

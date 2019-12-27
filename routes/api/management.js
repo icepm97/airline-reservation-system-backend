@@ -21,7 +21,7 @@ router.post('/login',middlewareJoi(schemas.managementLoginPOST), (req, res) => {
         }
         
         const token = jwt.sign({
-            id: result.id,
+            id: result.management_id,
             type: types.management
         }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
 
