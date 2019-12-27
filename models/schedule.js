@@ -17,7 +17,7 @@ const pool = require("./db");
 
 const getScheduleToday = async () => {
   let { rows } = await pool.query(
-    "select * from schedule natural join flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id and active_status = true"
+    "select * from schedule natural join flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id and active_status = true and date = current_date order by schedule_id "
   );
   return rows;
 };

@@ -34,7 +34,7 @@ const deleteFlight = async flight_id => {
 
 const scheduleFlights = async () => {
   let result = await pool.query(
-    "insert into schedule(date,departure_time_delay,duration_delay,flight_id,state) select now(),'00:00','00:00',flight.flight_id,'on_time' from flight ON CONFLICT (flight_id,date) DO NOTHING;"
+    "insert into schedule(date,departure_time_delay,duration_delay,flight_id,state) select current_date,'00:00','00:00',flight.flight_id,'on_time' from flight ON CONFLICT (flight_id,date) DO NOTHING;"
   );
   if (result.rowCount > 0) {
     return true;
