@@ -59,7 +59,15 @@ router.post(
   middlewareJoi(schemas.jwt(schemas.flightSchedulePOST)),
   middlewareJWT(types.management),
   (req, res) => {
-    
+    flight.scheduleFlights().then((result) => {
+      if (result) {
+        response.data(res, 200, { message: "Successfully scheduled" });
+      } else {
+        response.data(res, 404, { message: "Already scheduled" });
+      }
+    }).catch((err) => {
+      response.error(res, 500, "server_error", "Server Error", err);
+    });
   }
 );
 
