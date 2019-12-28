@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const book = require('../../models/booking')
+const booking = require('../../models/booking')
 const response = require('../../helper/response')
 const jwt = require('jsonwebtoken')
 const jwtconfig = require('../../config/jwt')
@@ -47,7 +47,7 @@ router.get('/:booking_id', (req, res) => {
 
 
 router.get('/', (req, res) => {
-  book.tickethistory(req.decoded)
+  booking.tickethistory(req.decoded)
     .then(result => {
       if (!result) {
         return response.error(res, 409, 'invalid_input', 'passenger id is invalid')

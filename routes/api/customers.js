@@ -4,12 +4,16 @@ const bcrypt = require('bcrypt')
 const jwtConfig = require('../../config/jwt')
 const response = require('../../helper/response')
 const jwt = require('jsonwebtoken')
+const middlewareJoi = require("../../helper/joi_middleware")
+const schemas = require("../../helper/joi_schemas")
 const types = require('../../config/types')
+
+
 /*
 login
 email, password
 */
-router.post('/login', (req, res) => {
+router.post('/login', middlewareJoi(schemas.customerLoginPOST), (req, res) => {
     customer.login(req.body.email, req.body.password)
     .then(result => {
         if (!result) {
@@ -33,8 +37,8 @@ router.post('/login', (req, res) => {
 register
 *
 */
-router.post('/', (req, res) => {
-    customer.register(req.body.email, req.body.first_name, req.body.last_name, req.body.gender, req.body.birthday, req.body.NIC, 'new', req.body.password)
+router.post('/', middlewareJoi(schemas.customerRegisterPOST), (req, res) => {
+    customer.register(req.body.email, req.body.first_name, req.body.last_name, req.body.gender, req.body.birthday, req.body.NIC, req.body.country, req.body.password)
     .then(result => {
         if (!result) {
             return response.error(res, 409, 'invalid_input', 'Email already exists')
