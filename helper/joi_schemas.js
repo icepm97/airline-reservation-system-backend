@@ -27,7 +27,7 @@ const schemas = {
     email: Joi.string()
       .email()
       .required(),
-    password:password
+    password: password
   }),
   customerRegisterPOST: Joi.object().keys({
     email: Joi.string()
@@ -66,12 +66,27 @@ const schemas = {
     state: Joi.string()
       .valid("on_time", "delay", "cancelled")
       .required(),
-      departure_time_delay:Joi.when("state",{is:Joi.string().only("delay"),then:Joi.string().required()}),
-      duration_delay:Joi.when("state",{is:Joi.string().only("delay"),then:Joi.string().required()})
+    departure_time_delay: Joi.when("state", { is: Joi.string().only("delay"), then: Joi.string().required() }),
+    duration_delay: Joi.when("state", { is: Joi.string().only("delay"), then: Joi.string().required() })
   }),
-  seatGET:Joi.object().keys({
-    aircraft_model_id:Joi.number().required(),
-    jwt:Joi.string().required()    
+  seatGET: Joi.object().keys({
+    aircraft_model_id: Joi.number().required(),
+    jwt: Joi.string().required()
+  }),
+  bookingPOST: Joi.object().keys({
+    date: Joi.string().isoDate().required(),
+    flight_id: Joi.string().required(),
+    tickets: Joi.array().items({
+      seat_id: Joi.number().required(),
+      passenger: Joi.object().keys({
+        first_name: Joi.string().required(),
+        last_name: Joi.string().required(),
+        gender: Joi.string().valid("male", "female").required(),
+        birthday: Joi.string().isoDate().required(),
+        passport_no: Joi.string().required(),
+        email: Joi.string().email().required()
+      })
+    })
   })
 };
 
