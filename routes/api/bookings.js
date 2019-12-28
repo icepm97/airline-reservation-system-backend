@@ -38,7 +38,6 @@ router.get('/', (req, res) => {
 
 
 router.post('/', middlewareJoi(schemas.jwt(schemas.bookingPOST)), middlewareJWT(types.customer), (req, res) => {
-  console.log(req.body)
   booking.create(req.user_id, req.body.data.date, req.body.data.flight_id, req.body.data.tickets)
     .then(result => {
       response.data(res, 201, [{booking_id: result}])

@@ -94,7 +94,7 @@ const schemas = {
             .required(),
           country: Joi.string().required()
         })
-      })
+      }).unknown(true)
     )
   })
 };
