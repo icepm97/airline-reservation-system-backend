@@ -69,6 +69,7 @@ const schemas = {
   }),
   seatGET: Joi.object().keys({
     aircraft_model_id: Joi.number().required(),
+    date:Joi.string().isoDate().required(),
     jwt: Joi.string().required()
   }),
   bookingPOST: Joi.object().keys({
