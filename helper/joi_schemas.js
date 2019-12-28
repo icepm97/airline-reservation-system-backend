@@ -78,7 +78,8 @@ const schemas = {
         gender: Joi.string().valid("male", "female").required(),
         birthday: Joi.string().isoDate().required(),
         passport_no: Joi.string().required(),
-        email: Joi.string().email().required()
+        email: Joi.string().email().required(),
+        country:Joi.string().required()
       })
     })
   })
