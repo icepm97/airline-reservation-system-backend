@@ -6,7 +6,7 @@ const types = require("../../config/types");
 const middlewareJoi = require("../../helper/joi_middleware");
 const schemas = require("../../helper/joi_schemas");
 
-router.get('/',middlewareJoi(schemas.seatGET,"query"),middlewareJWT(types.management,"query"), (req, res) => {
+router.get('/',middlewareJoi(schemas.seatGET,"query"),middlewareJWT([types.customer,types.guest],"query"), (req, res) => {
     seat.getSeats(req.query.aircraft_model_id)
     .then(result => {
         if(!result){
