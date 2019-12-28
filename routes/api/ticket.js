@@ -2,8 +2,8 @@ const router = require('express').Router()
 const ticket = require('../../models/ticket')
 const response = require('../../helper/response')
 
-router.post('/ticket', (req, res) => {
-    ticket.getTicketDetail(req.body.ticket_id)
+router.post('/ticket/:id', (req, res) => {
+    ticket.getTicketDetail(req.params.id)
     .then(result => {
         if(!result){
             return response.error(res, 401, 'unauthorized', 'Ticket is not there')
