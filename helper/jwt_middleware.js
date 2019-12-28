@@ -6,7 +6,7 @@ const middlewareJWT = (type,dataContainer = "body") => {
   var payload;
   return (req, res, next) => {
     try {
-      if (req.body.jwt) {
+      if (req[dataContainer].jwt) {
         payload = jwt.verify(req[dataContainer].jwt, jwtConfig.secret);
         if (payload.type === type) {
           req.user_id = payload.id
