@@ -35,6 +35,10 @@ const schemas = {
       .required(),
       departure_time_delay:Joi.when("state",{is:Joi.string().only("delay"),then:Joi.string().required()}),
       duration_delay:Joi.when("state",{is:Joi.string().only("delay"),then:Joi.string().required()})
+  }),
+  seatGET:Joi.object().keys({
+    aircraft_model_id:Joi.number().required(),
+    jwt:Joi.string().required()    
   })
 };
 

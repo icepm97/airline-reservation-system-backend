@@ -2,12 +2,12 @@ const jwt = require("jsonwebtoken");
 const jwtConfig = require("../config/jwt");
 const response = require("../helper/response");
 
-const middlewareJWT = type => {
+const middlewareJWT = (type,dataContainer = "body") => {
   var payload;
   return (req, res, next) => {
     try {
       if (req.body.jwt) {
-        payload = jwt.verify(req.body.jwt, jwtConfig.secret);
+        payload = jwt.verify(req[dataContainer].jwt, jwtConfig.secret);
         if (payload.type === type) {
           req.user_id = payload.id
           next();
