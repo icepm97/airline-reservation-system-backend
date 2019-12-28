@@ -50,41 +50,17 @@ router.put(
       });
   }
 );
-// router.delete(
-//   "/",
-//   middlewareJoi(schemas.jwt(schemas.flightDELETE)),
-//   middlewareJWT(types.management),
-//   (req, res) => {
-//     flight
-//       .deleteFlight(req.body.data.flight_id)
-//       .then(result => {
-//         if (result) {
-//           response.data(res, 200, { message: "Successfully deleted" });
-//         } else {
-//           response.error(res,404,"not found","Flight not found")
-//         }
-//       })
-//       .catch(err => {
-//         response.error(res, 500, "server_error", "Server Error", err);
-//       });
-//   }
-// );
 
-// router.post(
-//   "/schedule",
-//   middlewareJoi(schemas.jwt(schemas.flightSchedulePOST)),
-//   middlewareJWT(types.management),
-//   (req, res) => {
-//     flight.scheduleFlights().then((result) => {
-//       if (result) {
-//         response.data(res, 200, { message: "Successfully scheduled" });
-//       } else {
-//         response.data(res, 200, { message: "Already scheduled" });
-//       }
-//     }).catch((err) => {
-//       response.error(res, 500, "server_error", "Server Error", err);
-//     });
-//   }
-// );
+router.get("/history", (req, res) => {
+  console.log(req.params, req.query);
+  schedule
+    .getHistory(req.query.route_id)
+    .then(result => {
+      response.data(res,200,result)
+    })
+    .catch(err => {
+      response.error(res, 500, "server_error", "Server Error", err);
+    });
+});
 
 module.exports = router;

@@ -5,5 +5,6 @@ router.use('/management', require('./management'))
 router.use('/flight',require('./flight'))
 router.use('/schedule',require('./schedule'))
 router.use('/route',require('./route'))
+router.use('/seat',require('./seat'))
 router.use('/aircraft',require('./aircraft'))
 module.exports = router

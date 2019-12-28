@@ -40,24 +40,11 @@ const changeState = async (data) => {
   }
 };
 
-// const deleteFlight = async flight_id => {
-//   let result = await pool.query("delete from flight where flight_id = $1", [
-//     flight_id
-//   ]);
-//   if (result.rowCount >= 1) {
-//     return true;
-//   }
-//   return false;
-// };
+const getHistory = async route_id => {
+  let { rows } = await pool.query("",[route_id]);
+  if(rows.length>0) {
+      return rows
+  }
+};
 
-// const scheduleFlights = async () => {
-//   let result = await pool.query(
-//     "insert into schedule(date,departure_time_delay,arrival_time_delay,flight_id,state) select now(),'00:00','00:00',flight.flight_id,'on_time' from flight ON CONFLICT (flight_id,date) DO NOTHING;"
-//   );
-//   if (result.rowCount > 0) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// };
-module.exports = { getScheduleToday,changeState };
+module.exports = { getScheduleToday,changeState,getHistory };

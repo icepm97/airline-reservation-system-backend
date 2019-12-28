@@ -23,9 +23,10 @@ const getFlights = async () => {
 };
 
 const deleteFlight = async flight_id => {
-  let result = await pool.query("delete from flight where flight_id = $1", [
-    flight_id
-  ]);
+  let result = await pool.query(
+    "update flight set active_status = false where flight_id = $1",
+    [flight_id]
+  );
   if (result.rowCount >= 1) {
     return true;
   }
@@ -42,4 +43,6 @@ const scheduleFlights = async () => {
     return false;
   }
 };
-module.exports = { addFlight, getFlights, deleteFlight ,scheduleFlights};
+
+
+module.exports = { addFlight, getFlights, deleteFlight, scheduleFlights};
