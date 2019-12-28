@@ -73,7 +73,7 @@ const schemas = {
     jwt: Joi.string().required()
   }),
   ticketGET:Joi.object().keys({
-    id:Joi.number().required(),
+    id:Joi.string().required(),
     jwt:Joi.string().required()
   }),
   bookingPOST: Joi.object().keys({
