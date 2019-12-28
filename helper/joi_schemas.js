@@ -69,7 +69,7 @@ const schemas = {
   }),
   bookingPOST: Joi.object().keys({
     date: Joi.string().isoDate().required(),
-    flight_id: Joi.string().required(),
+    flight_id: Joi.number().required(),
     tickets: Joi.array().items({
       seat_id: Joi.number().required(),
       passenger: Joi.object().keys({
