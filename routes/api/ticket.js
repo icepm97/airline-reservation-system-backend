@@ -2,7 +2,7 @@ const router = require('express').Router()
 const ticket = require('../../models/ticket')
 const response = require('../../helper/response')
 
-router.post('/ticket/:id', (req, res) => {
+router.get('/ticket/:id', (req, res) => {
     ticket.getTicketDetail(req.params.id)
     .then(result => {
         if(!result){
