@@ -1,8 +1,8 @@
 const Joi = require("joi");
 
-const middlewareJoi = (schema, property) => {
+const middlewareJoi = (schema, dataContainer = "body") => {
   return (req, res, next) => {
-    const { error } = Joi.validate(req.body, schema);
+    const { error } = Joi.validate(req[dataContainer], schema);
     const valid = error == null;
 
     if (valid) {

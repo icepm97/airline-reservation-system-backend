@@ -60,7 +60,19 @@ const schemas = {
   flightDELETE: Joi.object().keys({
     flight_id: Joi.number().required()
   }),
-  flightSchedulePOST: Joi.object().keys({})
+  flightSchedulePOST: Joi.object().keys({}),
+  schedulePUT: Joi.object().keys({
+    schedule_id: Joi.number().required(),
+    state: Joi.string()
+      .valid("on_time", "delay", "cancelled")
+      .required(),
+      departure_time_delay:Joi.when("state",{is:Joi.string().only("delay"),then:Joi.string().required()}),
+      duration_delay:Joi.when("state",{is:Joi.string().only("delay"),then:Joi.string().required()})
+  }),
+  seatGET:Joi.object().keys({
+    aircraft_model_id:Joi.number().required(),
+    jwt:Joi.string().required()    
+  })
 };
 
 module.exports = schemas;
