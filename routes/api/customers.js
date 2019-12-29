@@ -41,7 +41,7 @@ router.post('/', middlewareJoi(schemas.customerRegisterPOST), (req, res) => {
     customer.register(req.body.email, req.body.first_name, req.body.last_name, req.body.gender, req.body.birthday, req.body.NIC, req.body.country, req.body.password)
     .then(result => {
         if (!result) {
-            return response.error(res, 409, 'invalid_input', 'Email already exists')
+            return response.error(res, 409, 'invalid_input', 'Email or NIC already exists')
         }
 
         response.data(res, 201, [])
