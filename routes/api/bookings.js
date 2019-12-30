@@ -23,7 +23,7 @@ router.get('/:booking_id', (req, res) => {
 
 
 router.get('/', middlewareJWT(types.customer), (req, res) => {
-  booking.getBookingDetails(req.user_id)
+  booking.getCustomerBookings(req.user_id)
     .then(result => {
       response.data(res, 200, result) 
     })

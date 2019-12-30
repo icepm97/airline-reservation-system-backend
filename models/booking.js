@@ -10,7 +10,7 @@ const getticketids = async (booking_id, result) => {
 }
 
 
-const getBookingDetails = async (customer_id) => {
+const getCustomerBookings = async (customer_id) => {
     let { rows } = await pool.query('SELECT * FROM get_customer_bookings($1)', [customer_id])
     return rows
 }
@@ -49,4 +49,4 @@ const create = async (customer_id, date, flight_id, tickets) => {
 }
 
 
-module.exports = { getticketids, getBookingDetails, create }
+module.exports = { getticketids, getCustomerBookings, create }
