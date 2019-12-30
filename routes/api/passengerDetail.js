@@ -2,7 +2,7 @@ const router = require('express').Router()
 const passengerDetail = require('../../models/passengerDetail')
 const response = require('../../helper/response')
 
-router.post('/passengerDetail', (req, res) =>{
+router.get('/', (req, res) =>{
     passengerDetail.getPassenger(req.body.flight_id, req.body.date)
     .then(result => {
         if(!result){
