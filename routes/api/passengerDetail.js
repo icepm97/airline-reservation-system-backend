@@ -2,11 +2,11 @@ const router = require('express').Router()
 const passengerDetail = require('../../models/passengerDetail')
 const response = require('../../helper/response')
 
-router.post('passengerDetail', (req, res) =>{
+router.post('/passengerDetail', (req, res) =>{
     passengerDetail.getPassenger(req.body.flight_id, req.body.date)
     .then(result => {
         if(!result){
-            return response.error(res, 401, 'Invalid Input', 'Noone booking')
+            return response.error(res, 401, 'Invalid Input', 'Noone is booking')
         }
         response.data(res, 200, result)
     })

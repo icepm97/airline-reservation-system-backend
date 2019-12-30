@@ -23,7 +23,6 @@ router.post(
 );
 
 router.get("/", (req, res) => {
-  console.log(req, req.params);
   flight
     .getFlights()
     .then(result => {
