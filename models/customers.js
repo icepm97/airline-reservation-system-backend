@@ -2,7 +2,7 @@ const pool = require('./db')
 const validator = require('email-validator')
 const schema = require('password-validator')
 const shortid = require('shortid')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 
 const login = async (email, password, result) => {
