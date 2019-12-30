@@ -6,7 +6,7 @@ const types = require("../../config/types");
 const middlewareJoi = require("../../helper/joi_middleware");
 const schemas = require("../../helper/joi_schemas");
 
-router.get('/ticket/:id',middlewareJoi(schemas.ticketGET,"query"),middlewareJWT(types.customer,"query"), (req, res) => {
+router.get('/:id',middlewareJoi(schemas.ticketGET,"query"),middlewareJWT(types.customer,"query"), (req, res) => {
     ticket.getTicketDetail(req.params.id)
     .then(result => {
         if(!result){
