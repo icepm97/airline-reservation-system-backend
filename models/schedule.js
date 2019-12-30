@@ -41,10 +41,8 @@ const changeState = async (data) => {
 };
 
 const getHistory = async route_id => {
-  let { rows } = await pool.query("",[route_id]);
-  if(rows.length>0) {
-      return rows
-  }
+  let { rows } = await pool.query("select * from schedule natural join flight natural join passengercountbyschedule(flight_id,date) as passegeer_count where date<current_date and route_id = $1",[route_id]);
+  return rows
 };
 
 module.exports = { getScheduleToday,changeState,getHistory };

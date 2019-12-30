@@ -51,10 +51,9 @@ router.put(
   }
 );
 
-router.get("/history", (req, res) => {
-  console.log(req.params, req.query);
+router.get("/history/:route_id", middlewareJoi(schemas.jwtGET,"query"),middlewareJWT(types.management,"query"), (req, res) => {
   schedule
-    .getHistory(req.query.route_id)
+    .getHistory(req.params.route_id)
     .then(result => {
       response.data(res,200,result)
     })
