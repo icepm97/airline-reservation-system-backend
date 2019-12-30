@@ -18,12 +18,6 @@ const schemas = {
     password: password
   }),
   customerLoginPOST: Joi.object().keys({
-    username: Joi.string()
-      .alphanum()
-      .required(),
-    password: password
-  }),
-  customerLoginPOST: Joi.object().keys({
     email: Joi.string()
       .email()
       .required(),

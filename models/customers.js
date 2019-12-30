@@ -16,7 +16,7 @@ const login = async (email, password, result) => {
 
 const register = async (email, first_name, last_name, gender, birthday, NIC, country, password) => {
     const client = await pool.connect()
-    const { rows } = await client.query('SELECT count("email") AS "count" FROM "customer" WHERE "email" = $1', [email])
+    const { rows } = await client.query('SELECT count("email") AS "emails",count("NIC") AS "nic"  FROM "customer" WHERE "email" = $1 or "NIC" = $2', [email,NIC])
 
     console.log(rows)
     if (rows[0].count != 0) {
