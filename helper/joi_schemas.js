@@ -72,7 +72,7 @@ const schemas = {
     date:Joi.string().isoDate().required(),
     jwt: Joi.string().required()
   }),
-  ticketGET:Joi.object().keys({
+  jwtGET:Joi.object().keys({
     jwt:Joi.string().required()
   }),
   bookingPOST: Joi.object().keys({
