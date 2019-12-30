@@ -16,12 +16,9 @@ router.get('/', (req, res) =>{
 })
 
 
-router.get('/:destinaton/:start_date/:end_date', (req, res) =>{
-    passengerDetailrange.getRequestedPassengers(req.body.destination, req.body.start_date, req.body.end_date)
+router.get('/:destination/:start_date/:end_date', (req, res) =>{
+    passengerDetail.getRequestedPassengers(req.params.destination, req.params.start_date, req.params.end_date)
     .then(result => {
-        if(!result){
-            return response.error(res, 409, 'Invalid Input', 'check inputs again')
-        }
         response.data(res, 200, result)
     })
     .catch(error => {
