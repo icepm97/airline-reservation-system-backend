@@ -7,19 +7,15 @@ const middlewareJoi = require("../../helper/joi_middleware");
 const schemas = require("../../helper/joi_schemas");
 
 
-router.get('/:booking_id', (req, res) => {
-  book.getticketids(req.params.booking_id)
+router.get('/:booking_id', middlewareJWT(types.customer), (req, res) => {
+  booking.getBookingTickets(req.user_id, req.params.booking_id)
     .then(result => {
-      if (!result) {
-        return response.error(res, 409, 'invalid_input', 'booking id is invalid')
-      }
-
-      response.data(res, 200, result) //check passing response from the server as list of ticket_ids
+      response.data(res, 200, result) 
     })
     .catch(error => {
       response.error(res, 500, 'server_error', 'Server Error', error)
     })
-});
+})
 
 
 router.get('/', middlewareJWT(types.customer), (req, res) => {

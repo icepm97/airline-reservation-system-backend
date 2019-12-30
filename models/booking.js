@@ -1,12 +1,9 @@
 const pool = require('./db')
 
 
-const getticketids = async (booking_id, result) => {
-    let { rows } = await pool.query('SELECT "ticket_id" from "ticket" JOIN "booking" USING ("booking_id") WHERE "booking_id" = $1', [booking_id])
-    if ((rows.length > 0)) {
-        return rows
-    }
-    return null
+const getBookingTickets = async (customer_id, booking_id) => {
+    let { rows } = await pool.query('SELECT ticket_id, first_name, last_name, seat_row, seat_column, seat_class, ticket_price FROM ticket_overview WHERE (customer_id, booking_id) = ($1, $2)', [customer_id, booking_id])
+    return rows
 }
 
 
@@ -49,4 +46,4 @@ const create = async (customer_id, date, flight_id, tickets) => {
 }
 
 
-module.exports = { getticketids, getCustomerBookings, create }
+module.exports = { getBookingTickets, getCustomerBookings, create }
