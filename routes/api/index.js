@@ -8,4 +8,5 @@ router.use('/route',require('./route'))
 router.use('/seat',require('./seat'))
 router.use('/aircraft',require('./aircraft'))
 router.use('/bookings', require('./bookings'))
+router.use('/ticket', require('./ticket'))
 module.exports = router
