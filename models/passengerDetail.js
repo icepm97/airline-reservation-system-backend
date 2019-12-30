@@ -1,30 +1,15 @@
 const connection = require('./db')
 
 const getPassenger = async (flight_id, date) => {
-    let { rows } = await connection.query('SELECT passenger.passenger_id, passenger.first_name, passenger.last_name, class.class_id, class.name as class_name, seat.seat_id, seat.aircraft_model, seat.row, seat.column, checkage(booking.date, passenger.birthday) as age FROM ticket NATURAL JOIN passenger NATURAL JOIN seat NATURAL JOIN class natural join booking WHERE booking.flight_id=$1 AND booking.date=$2', [flight_id, date])
-    if(rows.length!=0){
-        
-        return rows;
-    }
-    else{
-        return null
-    }
-    
+    let { rows } = await connection.query('SELECT  * FROM givenrangepassengers WHERE flight_id=$1 AND date=$2', [flight_id, date])
+    return rows;   
 }
 
 
 const getRequestedPassengers = async (destination, start_date, end_date) => {
-    let { rows } = await Connection.query('SELECT ticket.flight_id, ticket.date FROM ticket NATURAL JOIN flight NATURAL JOIN route WHERE route.destination_id == $1 AND $2 <= ticket.date <= $3', [destination, start_date, end_date])
-    if(rows.length!=0){
-        let data = []
-        for (var indx in rows){
-            data.push( getPassenger(indx[0], indx[1]));
-        }
-        return data
-    }
-    else{
-        return null
-    }
+    console.log(destination, start_date, end_date)
+    let { rows } = await connection.query('SELECT * FROM givenrangepassengers WHERE destination_id = $1 AND $2 <= date  AND date <= $3 ', [destination, start_date, end_date])
+    return rows;
 }
 
 module.exports = {getPassenger, getRequestedPassengers}
