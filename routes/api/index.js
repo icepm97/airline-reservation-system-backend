@@ -11,4 +11,5 @@ router.use('/bookings', require('./bookings'))
 router.use('/ticket', require('./ticket'))
 router.use('/passengerDetail', require('./passengerDetail'))
 router.use('/flightBookingDetail', require('./flightBookingDetail'))
+router.use('/customerType', require('./customerType'))
 module.exports = router
