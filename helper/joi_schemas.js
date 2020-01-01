@@ -47,12 +47,15 @@ const schemas = {
     journey_duration: Joi.string().required(),
     departure_time: Joi.string().required(),
     route_id: Joi.number().required(),
-    aircraft_model: Joi.number().required()
+    aircraft_id: Joi.number().required()
   }),
   flightDELETE: Joi.object().keys({
     flight_id: Joi.number().required()
   }),
-  flightSchedulePOST: Joi.object().keys({}),
+  flightSchedulePOST: Joi.object().keys({
+    start_date: Joi.string().isoDate().required(),
+    end_date: Joi.string().isoDate().required()
+  }),
   schedulePUT: Joi.object().keys({
     schedule_id: Joi.number().required(),
     state: Joi.string()

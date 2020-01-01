@@ -4,12 +4,12 @@ const addFlight = async flight => {
   let {
     rows
   } = await pool.query(
-    "INSERT INTO public.flight (journey_duration,departure_time,route_id,aircraft_model) VALUES ($1,$2,$3,$4)",
+    "INSERT INTO public.flight (journey_duration,departure_time,route_id,aircraft_id) VALUES ($1,$2,$3,$4)",
     [
       flight.journey_duration,
       flight.departure_time,
       flight.route_id,
-      flight.aircraft_model
+      flight.aircraft_id
     ]
   );
   return true;
@@ -33,11 +33,18 @@ const deleteFlight = async flight_id => {
   return false;
 };
 
-const scheduleFlights = async () => {
-  let result = await pool.query(
-    "insert into schedule(date,departure_time_delay,duration_delay,flight_id,state) select current_date,'00:00','00:00',flight.flight_id,'on_time' from flight ON CONFLICT (flight_id,date) DO NOTHING;"
-  );
-  if (result.rowCount > 0) {
+const scheduleFlights = async (start_date, end_date) => {
+  const _start_date = new Date(start_date + 'Z')
+  const _end_date = new Date(end_date + 'Z')
+  let result_row_count = 0
+  for (let d = new Date(_start_date); d <= _end_date; d.setDate(d.getDate() + 1)) {
+    let result = await pool.query(
+      "insert into schedule(date, departure_time_delay, duration_delay, flight_id, state) select $1, '00:00', '00:00', flight. flight_id, 'on_time' from flight ON CONFLICT (flight_id,date) DO NOTHING;",
+      [d.toISOString()]
+    );
+    result_row_count += result.rowCount
+  }
+  if (result_row_count > 0) {
     return true;
   } else {
     return false;
