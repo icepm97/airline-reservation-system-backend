@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const getCustomerType = require('../../models/customerType')
-const response = require('../../helper/response')
+const response = require('../../../helper/response')
 
 router.get('/', (req, res) =>{
     getCustomerType.getcustomerType(req.body.start_date, req.body.end_date)
