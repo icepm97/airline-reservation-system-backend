@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const passengerDetail = require('../../models/passengerDetail')
+const passengerDetail = require('../../../models/reports/passengerDetail')
 const response = require('../../../helper/response')
 
 router.get('/:fight_id/:date', (req, res) =>{
