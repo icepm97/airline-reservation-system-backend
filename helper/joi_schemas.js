@@ -47,7 +47,7 @@ const schemas = {
     journey_duration: Joi.string().required(),
     departure_time: Joi.string().required(),
     route_id: Joi.number().required(),
-    aircraft_model: Joi.number().required()
+    aircraft_id: Joi.number().required()
   }),
   flightDELETE: Joi.object().keys({
     flight_id: Joi.number().required()
