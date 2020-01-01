@@ -52,7 +52,10 @@ const schemas = {
   flightDELETE: Joi.object().keys({
     flight_id: Joi.number().required()
   }),
-  flightSchedulePOST: Joi.object().keys({}),
+  flightSchedulePOST: Joi.object().keys({
+    start_date: Joi.isoDate().required(),
+    end_date: Joi.isoDate().required()
+  }),
   schedulePUT: Joi.object().keys({
     schedule_id: Joi.number().required(),
     state: Joi.string()
