@@ -12,6 +12,7 @@ const login = async (email, password, result) => {
     return null
 }
 
+
 const register = async (email, first_name, last_name, gender, birthday, NIC, country, password) => {
     const client = await pool.connect()
     const { rows } = await client.query('SELECT count("email") AS "emails",count("NIC") AS "nics"  FROM "customer" WHERE "email" = $1 or "NIC" = $2', [email,NIC])
@@ -36,26 +37,26 @@ const register = async (email, first_name, last_name, gender, birthday, NIC, cou
 
 }
 
-function validations(email, password) {
-    var schema = new schema();
-    // Add properties to it
-    schema
-        .is().min(8)                                    // Minimum length 8
-        .is().max(100)                                  // Maximum length 100
-        .has().uppercase()                              // Must have uppercase letters
-        .has().lowercase()                              // Must have lowercase letters
-        .has().digits()                                 // Must have digits
-        .has().not().spaces()                           // Should not have spaces
-    //.is().not().oneOf(['Password123']);             // Blacklist these values
+// function validations(email, password) {
+//     var schema = new schema();
+//     // Add properties to it
+//     schema
+//         .is().min(8)                                    // Minimum length 8
+//         .is().max(100)                                  // Maximum length 100
+//         .has().uppercase()                              // Must have uppercase letters
+//         .has().lowercase()                              // Must have lowercase letters
+//         .has().digits()                                 // Must have digits
+//         .has().not().spaces()                           // Should not have spaces
+//     //.is().not().oneOf(['Password123']);             // Blacklist these values
 
-    let mail = (validator.validate(email) ? true : console.log("email format is wrong"))
-    let pass = (schema.validate(password) ? true : console.log("password must have length 8<= pass<= 100, atleast an upperletter, a lowerletter, a digit and should not have 'space'"))
+//     let mail = (validator.validate(email) ? true : console.log("email format is wrong"))
+//     let pass = (schema.validate(password) ? true : console.log("password must have length 8<= pass<= 100, atleast an upperletter, a lowerletter, a digit and should not have 'space'"))
 
-    if (mail && pass) {
-        return true;
-    }
-    return false;
-}
+//     if (mail && pass) {
+//         return true;
+//     }
+//     return false;
+// }
 
 
 module.exports = { login, register }

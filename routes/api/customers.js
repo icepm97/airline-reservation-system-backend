@@ -15,21 +15,30 @@ email, password
 */
 router.post('/login', middlewareJoi(schemas.customerLoginPOST), (req, res) => {
     customer.login(req.body.email, req.body.password)
-    .then(result => {
-        if (!result) {
-            return response.error(res, 401, 'unauthorized', 'User credentials are invalid')
-        }
-        
-        const token = jwt.sign({
-            id: result.customer_id,
-            type: types.customer
-        }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
+        .then(result => {
+            if (!result) {
+                return response.error(res, 401, 'unauthorized', 'User credentials are invalid')
+            }
 
-        response.jwt(res, 200, result, token)
-    })
-    .catch(error => {
-        response.error(res, 500, 'server_error', 'Server Error', error)
-    })
+            const token = jwt.sign({
+                id: result.customer_id,
+                type: types.customer
+            }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
+
+            response.jwt(res, 200, result, token)
+        })
+        .catch(error => {
+            response.error(res, 500, 'server_error', 'Server Error', error)
+        })
+})
+
+
+router.post('/guest-login', (req, res) => {
+    const token = jwt.sign({
+        type: types.guest
+    }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
+
+    response.jwt(res, 200, result, token)
 })
 
 
@@ -39,16 +48,16 @@ register
 */
 router.post('/', middlewareJoi(schemas.customerRegisterPOST), (req, res) => {
     customer.register(req.body.email, req.body.first_name, req.body.last_name, req.body.gender, req.body.birthday, req.body.NIC, req.body.country, req.body.password)
-    .then(result => {
-        if (!result) {
-            return response.error(res, 409, 'invalid_input', 'Email or NIC already exists')
-        }
+        .then(result => {
+            if (!result) {
+                return response.error(res, 409, 'invalid_input', 'Email or NIC already exists')
+            }
 
-        response.data(res, 201, [])
-    })
-    .catch(error => {
-        response.error(res, 500, 'server_error', 'Server Error', error)
-    })
+            response.data(res, 201, [])
+        })
+        .catch(error => {
+            response.error(res, 500, 'server_error', 'Server Error', error)
+        })
 })
 
 
