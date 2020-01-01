@@ -15,7 +15,7 @@ const changeState = async (data) => {
   let {
     rowCount
   } = await pool.query(
-    "update schedule set state = $1,departure_time_delay = $2,duration_delay=$3 where schedule_id = $4 and schedule.date = current_date",
+    "update schedule set state = $1,departure_time_delay = $2,duration_delay=$3 where schedule_id = $4",
     [data.state,data.departure_time_delay,data.duration_delay, data.schedule_id]
   );
   if (rowCount > 0) {

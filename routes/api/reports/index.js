@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
-router.use('/revenuePerAircraftModel', require('./revenuePerAircraftModel'))
-router.use('/passengerDetail', require('./passengerDetail'))
-router.use('/customerType', require('./customerType'))
+router.use('/revenue-per-aircraftModel', require('./revenuePerAircraftModel'))
+router.use('/passenger-detail', require('./passengerDetail'))
+router.use('/customer-type', require('./customerType'))
 
 module.exports = router
