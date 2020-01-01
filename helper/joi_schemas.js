@@ -53,8 +53,8 @@ const schemas = {
     flight_id: Joi.number().required()
   }),
   flightSchedulePOST: Joi.object().keys({
-    start_date: Joi.isoDate().required(),
-    end_date: Joi.isoDate().required()
+    start_date: Joi.string().isoDate().required(),
+    end_date: Joi.string().isoDate().required()
   }),
   schedulePUT: Joi.object().keys({
     schedule_id: Joi.number().required(),
