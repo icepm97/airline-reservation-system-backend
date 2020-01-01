@@ -1,8 +1,10 @@
 const router = require('express').Router()
 const getCustomerType = require('../../../models/reports/customerType')
 const response = require('../../../helper/response')
+const middlewareJWT = require("../../../helper/jwt_middleware");
+const types = require("../../../config/types");
 
-router.get('/:start_date/:end_date', (req, res) =>{
+router.get('/:start_date/:end_date', middlewareJWT(types.management,"query"), (req, res) =>{
     getCustomerType.getcustomerType(req.params.start_date, req.params.end_date)
     .then(result => {
         if(!result){

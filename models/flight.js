@@ -39,10 +39,16 @@ const scheduleFlights = async (start_date, end_date) => {
   let result_row_count = 0
   for (let d = new Date(_start_date); d <= _end_date; d.setDate(d.getDate() + 1)) {
     let result = await pool.query(
-      "insert into schedule(date, departure_time_delay, duration_delay, flight_id, state) select $1, '00:00', '00:00', flight. flight_id, 'on_time' from flight ON CONFLICT (flight_id,date) DO NOTHING;",
+      "insert into schedule(date, departure_time_delay, duration_delay, flight_id, state) (select $1, '00:00', '00:00', flight.flight_id, 'on_time' from flight WHERE active_status = true) ON CONFLICT (flight_id,date) DO NOTHING;",
       [d.toISOString()]
     );
+<<<<<<< HEAD
     result_row_count += result.rows.length
+=======
+    console.log(d)
+    console.log(result_row_count)
+    result_row_count += result.rowCount
+>>>>>>> b3d262c1e1afa89611dfedc5ab115ac8b5334155
   }
   if (result_row_count > 0) {
     return true;
