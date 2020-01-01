@@ -62,4 +62,17 @@ router.get("/history/:route_id", middlewareJoi(schemas.jwtGET,"query"),middlewar
     });
 });
 
+
+router.get("/:route_id/:date", (req, res) => {
+  schedule
+    .getSheduleByDateRoute(req.params.route_id, req.params.date)
+    .then(result => {
+      response.data(res, 200, result);
+    })
+    .catch(err => {
+      response.error(res, 500, "server_error", "Server Error", err);
+    });
+});
+
+
 module.exports = router;
