@@ -17,7 +17,7 @@ const addFlight = async flight => {
 
 const getFlights = async () => {
   let { rows } = await pool.query(
-    "select * from flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id and active_status = true"
+    "select * from flight natural join route natural join aircraft where  active_status = true"
   );
   return rows;
 };
