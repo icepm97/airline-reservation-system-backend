@@ -71,8 +71,7 @@ const schemas = {
     })
   }),
   seatGET: Joi.object().keys({
-    aircraft_model_id: Joi.number().required(),
-    date: Joi.string().isoDate().required(),
+    schedule_id: Joi.number().required(),
     jwt: Joi.string().required()
   }),
   jwtGET: Joi.object().keys({
