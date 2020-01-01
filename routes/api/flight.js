@@ -58,7 +58,7 @@ router.post(
   middlewareJoi(schemas.jwt(schemas.flightSchedulePOST)),
   middlewareJWT(types.management),
   (req, res) => {
-    flight.scheduleFlights(req.body.start_date, end_date).then((result) => {
+    flight.scheduleFlights(req.body.start_date, req.body.end_date).then((result) => {
       if (result) {
         response.data(res, 200, { message: "Successfully scheduled" });
       } else {

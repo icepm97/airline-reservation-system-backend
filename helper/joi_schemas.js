@@ -103,7 +103,8 @@ const schemas = {
         })
       }).unknown(true)
     )
-  })
+  }),
+  
 };
 
 module.exports = schemas;
