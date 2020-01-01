@@ -64,7 +64,6 @@ router.get("/history/:route_id", middlewareJoi(schemas.jwtGET,"query"),middlewar
 
 
 router.get("/:route_id/:date", (req, res) => {
-  console.log(req, req.params);
   schedule
     .getSheduleByDateRoute(req.params.route_id, req.params.date)
     .then(result => {
