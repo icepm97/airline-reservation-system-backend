@@ -1,8 +1,10 @@
 const router = require('express').Router()
 const flightBookingDetail = require('../../models/flightBookingDetail')
 const response = require('../../helper/response')
+const middlewareJWT = require("../../helper/jwt_middleware");
+const types = require("../../config/types");
 
-router.get('/', (req, res) =>{
+router.get('/', middlewareJWT(types.management),(req, res) =>{
     flightBookingDetail.getBookingDetails(req.body.flight_id, req.body.date)
     .then(result => {
         if(!result){
