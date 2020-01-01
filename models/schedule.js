@@ -30,4 +30,13 @@ const getHistory = async route_id => {
   return rows
 };
 
-module.exports = { getScheduleToday,changeState,getHistory };
+
+const getSheduleByDateRoute = async (route_id, date) => {
+  let { rows } = await pool.query(
+    'select schedule_id, aircraft_id, model_id, model, brand, departure_time, journey_duration, departure_time_delay, duration_delay from route join flight using (route_id) join schedule using (flight_id) join aircraft using (aircraft_id) join aircraft_model using (model_id) where route_id = $1and schedule."date" = $2',
+    [route_id, date]
+  );
+  return rows;
+};
+
+module.exports = { getScheduleToday,changeState,getHistory, getSheduleByDateRoute };
