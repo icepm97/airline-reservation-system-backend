@@ -1,7 +1,8 @@
 const connection = require('../db')
 
 const getPassenger = async (flight_id, date) => {
-    let { rows } = await connection.query('SELECT  first_name, last_name, seat_class, seat_row, seat_column, checkage(birthday, $2) AS age FROM givenrangepassengers WHERE flight_id=1 AND date= $2', [flight_id, date])
+    let { rows } = await connection.query('SELECT  first_name, last_name, seat_class, seat_row, seat_column, checkage(birthday, $2) AS age FROM givenrangepassengers WHERE flight_id=$1 AND date= $2', [flight_id, date])
+    console.log(flight_id, date)
     return rows;   
 }
 
