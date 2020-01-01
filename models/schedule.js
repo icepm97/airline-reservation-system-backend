@@ -26,7 +26,7 @@ const changeState = async (data) => {
 };
 
 const getHistory = async route_id => {
-  let { rows } = await pool.query("select * from schedule natural join flight natural join aircraft natural join aircraft_model natural join passengercountbyschedule(flight_id,date) as passenger_count where date<current_date and route_id = $1",[route_id]);
+  let { rows } = await pool.query("select * from schedule natural join flight natural join aircraft natural join aircraft_model natural join passengercountbyschedule(flight_id,date) as passenger_count where date<current_date and route_id = $1  order by date desc",[route_id]);
   return rows
 };
 
