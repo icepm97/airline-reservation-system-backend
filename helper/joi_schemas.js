@@ -47,7 +47,7 @@ const schemas = {
     journey_duration: Joi.string().required(),
     departure_time: Joi.string().required(),
     route_id: Joi.number().required(),
-    aircraft_id: Joi.number().required()
+    aircraft_id: Joi.string().required()
   }),
   flightDELETE: Joi.object().keys({
     flight_id: Joi.number().required()
@@ -72,11 +72,11 @@ const schemas = {
   }),
   seatGET: Joi.object().keys({
     aircraft_model_id: Joi.number().required(),
-    date:Joi.string().isoDate().required(),
+    date: Joi.string().isoDate().required(),
     jwt: Joi.string().required()
   }),
-  jwtGET:Joi.object().keys({
-    jwt:Joi.string().required()
+  jwtGET: Joi.object().keys({
+    jwt: Joi.string().required()
   }),
   bookingPOST: Joi.object().keys({
     date: Joi.string()
@@ -103,7 +103,43 @@ const schemas = {
         })
       }).unknown(true)
     )
-  })
+  }),
+  bookingPOST: Joi.object().keys({
+    date: Joi.string()
+      .isoDate()
+      .required(),
+    flight_id: Joi.number().required(),
+    tickets: Joi.array().items(
+      Joi.object().keys({
+        seat_id: Joi.number().required(),
+        passenger: Joi.object().keys({
+          first_name: Joi.string().required(),
+          last_name: Joi.string().required(),
+          gender: Joi.string()
+            .valid("male", "female")
+            .required(),
+          birthday: Joi.string()
+            .isoDate()
+            .required(),
+          passport_no: Joi.string().required(),
+          email: Joi.string()
+            .email()
+            .required(),
+          country: Joi.string().required()
+        })
+      }).unknown(true)
+    ),
+    guest: Joi.object().keys({
+      first_name: Joi.string().required(),
+      last_name: Joi.string().required(),
+      nic: Joi.string().required(),
+      email: Joi.string()
+        .email()
+        .required(),
+      country: Joi.string().required()
+    })
+  }),
+
 };
 
 module.exports = schemas;

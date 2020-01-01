@@ -1,23 +1,8 @@
 const pool = require("./db");
 
-// const addFlight = async flight => {
-//   let {
-//     rows
-//   } = await pool.query(
-//     "INSERT INTO public.flight (journey_duration,departure_time,route_id,aircraft_model) VALUES ($1,$2,$3,$4)",
-//     [
-//       flight.journey_duration,
-//       flight.departure_time,
-//       flight.route_id,
-//       flight.aircraft_model
-//     ]
-//   );
-//   return true;
-// };
-
 const getScheduleToday = async () => {
   let { rows } = await pool.query(
-    "select * from schedule natural join flight natural join route natural join aircraft_model where flight.aircraft_model = aircraft_model.model_id and active_status = true and date >= current_date order by schedule_id "
+    "select * from schedule natural join flight natural join route natural join aircraft natural join aircraft_model where active_status = true and date >= current_date order by schedule_id "
   );
   return rows;
 };
@@ -30,7 +15,7 @@ const changeState = async (data) => {
   let {
     rowCount
   } = await pool.query(
-    "update schedule set state = $1,departure_time_delay = $2,duration_delay=$3 where schedule_id = $4 and schedule.date = current_date",
+    "update schedule set state = $1,departure_time_delay = $2,duration_delay=$3 where schedule_id = $4",
     [data.state,data.departure_time_delay,data.duration_delay, data.schedule_id]
   );
   if (rowCount > 0) {
@@ -41,7 +26,7 @@ const changeState = async (data) => {
 };
 
 const getHistory = async route_id => {
-  let { rows } = await pool.query("select * from schedule natural join flight inner join aircraft_model on flight.aircraft_model=aircraft_model.model_id natural join passengercountbyschedule(flight_id,date) as passenger_count where date<current_date and route_id = $1",[route_id]);
+  let { rows } = await pool.query("select * from schedule natural join flight natural join aircraft natural join aircraft_model natural join passengercountbyschedule(flight_id,date) as passenger_count where date<current_date and route_id = $1  order by date desc",[route_id]);
   return rows
 };
 
