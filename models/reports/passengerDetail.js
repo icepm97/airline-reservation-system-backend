@@ -1,4 +1,4 @@
-const connection = require('./db')
+const connection = require('../db')
 
 const getPassenger = async (flight_id, date) => {
     let { rows } = await connection.query('SELECT  * FROM givenrangepassengers WHERE flight_id=$1 AND date=$2', [flight_id, date])

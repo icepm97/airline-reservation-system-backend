@@ -5,4 +5,9 @@ const getAircraftModels = async () => {
   return rows;
 };
 
-module.exports = { getAircraftModels };
+const getAircrafts = async () => {
+  let { rows } = await pool.query("select * from aircraft;");
+  return rows;
+};
+
+module.exports = { getAircraftModels, getAircrafts };
