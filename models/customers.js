@@ -17,7 +17,7 @@ const register = async (email, first_name, last_name, gender, birthday, NIC, cou
     const { rows } = await client.query('SELECT count("email") AS "emails",count("NIC") AS "nics"  FROM "customer" WHERE "email" = $1 or "NIC" = $2', [email,NIC])
 
     console.log(rows)
-    if ((rows[0].emails !== 0) || (rows[0].nics !== 0)) {
+    if ((rows[0].emails != 0) || (rows[0].nics != 0)) {
         return null
     }
 
