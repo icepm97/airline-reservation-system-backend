@@ -37,6 +37,7 @@ const scheduleFlights = async (start_date, end_date) => {
   const _start_date = new Date(start_date + 'Z')
   const _end_date = new Date(end_date + 'Z')
   let result_row_count = 0
+  console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
   for (let d = new Date(_start_date); d <= _end_date; d.setDate(d.getDate() + 1)) {
     console.log("****************************",d.toISOString())
     let result = await pool.query(
