@@ -7,7 +7,7 @@ const middlewareJoi = require("../../helper/joi_middleware");
 const schemas = require("../../helper/joi_schemas");
 
 router.get('/',middlewareJoi(schemas.seatGET,"query"),middlewareJWT([types.customer,types.guest],"query"), (req, res) => {
-    seat.getSeats(req.query.schedule_id)
+    seat.getSeats(req.user_id, req.query.schedule_id)
     .then(result => {
         if(!result){
             return response.error(res, 404, 'not found', 'Aircraft not found')
