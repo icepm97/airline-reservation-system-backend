@@ -12,7 +12,6 @@ const sendMail = async (to, subject, text, html) => {
         }
     });
 
-
     let info = await transporter.sendMail({
         from: 'ars.systm.info@gmail.com', 
         to, 
@@ -23,3 +22,5 @@ const sendMail = async (to, subject, text, html) => {
 
     console.log(info);
 }
+
+module.exports = sendMail
