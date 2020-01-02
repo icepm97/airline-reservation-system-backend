@@ -100,7 +100,7 @@ const schemas = {
       }).unknown(true)
     )
   }),
-  bookingPOST: Joi.object().keys({
+  bookingGuestPOST: Joi.object().keys({
     date: Joi.string()
       .isoDate()
       .required(),
