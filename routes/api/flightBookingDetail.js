@@ -4,8 +4,8 @@ const response = require('../../helper/response')
 const middlewareJWT = require("../../helper/jwt_middleware");
 const types = require("../../config/types");
 
-router.get('/', middlewareJWT(types.management),(req, res) =>{
-    flightBookingDetail.getBookingDetails(req.body.flight_id, req.body.date)
+router.get('/:flight_id/:date', middlewareJWT(types.management,"query"),(req, res) =>{
+    flightBookingDetail.getBookingDetails(req.params.flight_id, req.params.date)
     .then(result => {
         if(!result){
             return response.error(res, 401, 'Invalid Input', 'Noone is booking')
