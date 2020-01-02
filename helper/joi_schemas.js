@@ -78,10 +78,7 @@ const schemas = {
     jwt: Joi.string().required()
   }),
   bookingPOST: Joi.object().keys({
-    date: Joi.string()
-      .isoDate()
-      .required(),
-    flight_id: Joi.number().required(),
+    schedule_id: Joi.number().required(),
     tickets: Joi.array().items(
       Joi.object().keys({
         seat_id: Joi.number().required(),

@@ -33,7 +33,7 @@ router.post('/', middlewareJoi(schemas.jwt(schemas.bookingPOST)), middlewareJWT(
   if ((new Date(req.body.data.date)) <= new Date()) {
     response.error(res, 405, 'invalid_input', 'Select future date', error)
   }
-  booking.create(req.user_id, req.body.data.date, req.body.data.flight_id, req.body.data.tickets)
+  booking.create(req.user_id, req.body.data.schedule_id, req.body.data.tickets)
     .then(result => {
       response.data(res, 201, [{booking_id: result}])
     })
