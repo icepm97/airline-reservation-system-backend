@@ -23,6 +23,7 @@ const register = async (email, first_name, last_name, gender, birthday, NIC, cou
     }
 
     try {
+        password = await bcrypt.hash(password)
         await client.query('BEGIN')
         const { rows } = await client.query('INSERT INTO "customer" ("email", "first_name", "last_name", "gender", "birthday", "NIC", "country") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "customer_id"', [email, first_name, last_name, gender, birthday, NIC, country])
         await client.query('INSERT into "customer_login" ("customer_id", "password") VALUES ($1, $2)', [rows[0].customer_id, password])
