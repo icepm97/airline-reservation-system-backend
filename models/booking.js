@@ -13,12 +13,12 @@ const getCustomerBookings = async (customer_id) => {
 }
 
 
-const create = async (customer_id, date, flight_id, tickets) => {
+const create = async (customer_id, schedule_id, tickets) => {
     const client = await pool.connect()
 
     try {
         await client.query('BEGIN')
-        const booking_ids = (await client.query('INSERT INTO "booking" ("booked_date", "customer_id", "flight_id", "date") VALUES (current_date, $1, $2, $3) RETURNING "booking_id"', [customer_id, flight_id, date])).rows
+        const booking_ids = (await client.query('INSERT INTO "booking" ("booked_date", "customer_id", "schedule_id") VALUES (current_date, $1, $2) RETURNING "booking_id"', [customer_id, schedule_id])).rows
         for (const ticket of tickets) {
             const passenger = ticket.passenger
 
