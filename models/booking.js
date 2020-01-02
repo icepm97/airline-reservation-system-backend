@@ -26,7 +26,7 @@ const create = async (customer_id, schedule_id, tickets) => {
             const passenger_ids = (await client.query('INSERT into "passenger" ("first_name", "last_name", "gender", "birthday", "passport_no", "email", "country") VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT ("passport_no") DO UPDATE SET ("first_name", "last_name", "gender", "birthday", "email", "country") = (excluded."first_name", excluded."last_name", excluded."gender", excluded."birthday", excluded."email", excluded."country") RETURNING passenger_id',
                 [passenger.first_name, passenger.last_name, passenger.gender, passenger.birthday, passenger.passport_no, passenger.email, passenger.country])).rows
             console.log(passenger_ids)
-            await client.query('INSERT into "ticket" ("passenger_id", "seat_id", "booking_id", "price") VALUES ($1, $2, $3, (select price_discounted from get_price($4, $2, $5)))',
+            await client.query('INSERT into "ticket" ("passenger_id", "seat_id", "booking_id", "price") VALUES ($1, $2, $3, (select discounted_price from get_price($4, $2, $5)))',
                 [passenger_ids[0].passenger_id, ticket.seat_id, booking_ids[0].booking_id, customer_id, schedule_id])
         }
         await client.query('COMMIT')
@@ -56,7 +56,7 @@ const createForGuest = async (guest, schedule_id, tickets) => {
             const passenger_ids = (await client.query('INSERT into "passenger" ("first_name", "last_name", "gender", "birthday", "passport_no", "email", "country") VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT ("passport_no") DO UPDATE SET ("first_name", "last_name", "gender", "birthday", "email", "country") = (excluded."first_name", excluded."last_name", excluded."gender", excluded."birthday", excluded."email", excluded."country") RETURNING passenger_id',
                 [passenger.first_name, passenger.last_name, passenger.gender, passenger.birthday, passenger.passport_no, passenger.email, passenger.country])).rows
             console.log(passenger_ids)
-            const ticket_ids = (await client.query('INSERT into "ticket" ("passenger_id", "seat_id", "booking_id", "price") VALUES ($1, $2, $3, (select price_discounted from get_price($4, $2, $5))) RETURNING "ticket_id',
+            const ticket_ids = (await client.query('INSERT into "ticket" ("passenger_id", "seat_id", "booking_id", "price") VALUES ($1, $2, $3, (select discounted_price from get_price($4, $2, $5))) RETURNING "ticket_id',
                 [passenger_ids[0].passenger_id, ticket.seat_id, booking_ids[0].booking_id, customer_id, schedule_id])).rows
             html += `<a href="https://airline-reservation-system-1.herokuapp.com/api/ticket/${ticket_ids[0].ticket_id}">Ticket - ${count}</a>`
             count += 1
