@@ -18,7 +18,7 @@ const create = async (customer_id, schedule_id, tickets) => {
 
     try {
         await client.query('BEGIN')
-        const booking_ids = (await client.query('INSERT INTO "booking" ("booked_date", "customer_id", "shedule_id") VALUES (current_date, $1, $2) RETURNING "booking_id"', [customer_id, schedule_id])).rows
+        const booking_ids = (await client.query('INSERT INTO "booking" ("booked_date", "customer_id", "shedule_id", "date") VALUES (current_date, $1, $2, (select date from schedule where shedule_id = $2)) RETURNING "booking_id"', [customer_id, schedule_id])).rows
         for (const ticket of tickets) {
             const passenger = ticket.passenger
 
