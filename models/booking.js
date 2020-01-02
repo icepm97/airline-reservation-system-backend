@@ -13,7 +13,7 @@ const getCustomerBookings = async (customer_id) => {
 }
 
 
-const create = async (customer_id, date, flight_id, tickets) => {
+const create = async (customer_id, schedule_id, tickets) => {
     const client = await pool.connect()
 
     try {
